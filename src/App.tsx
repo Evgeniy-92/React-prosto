@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import Accordion from "./components/Accordion/Accordion";
+import {Rating, RatingValueType} from "./components/Rating/Rating";
+import {UncontrolledRating} from "./components/Rating/UncontroledRating";
+import UncontrolledAccordion from "./components/Accordion/UncontrolledAccordion";
+import UncontrolledOnOff from "./components/OnOff/UncontrolledOnOff";
+import OnOff from "./components/OnOff/OnOff";
+import OnOffNew from './components/OnOff/OnOffNew';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [ratingValue, setRatingValue] = useState<RatingValueType>(0)
+    const [collapsedAccordion, setCollapsedAccordion] = useState<boolean>(false)
+    const [on, setOn] = useState<boolean>(true)
+    const [onNew, setOnNew] = useState<boolean>(true)
+    const [uncontrolledOn, setUncontrolledOn] = useState<boolean>(true)
+
+    return (
+        <div>
+            <UncontrolledOnOff onChange={setUncontrolledOn}/> {uncontrolledOn.toString()}
+            <OnOff toggle={on} onclick={setOn}/>
+            <OnOffNew toggle={onNew} onclick={setOnNew}/>
+            <AppTitle title={"Hello world"}/>
+            <AppTitle title={"My friends"}/>
+            Article 1
+            <UncontrolledRating />
+            <UncontrolledAccordion title={"Menu"}/>
+            <Accordion title={"Articles"} collapsed={collapsedAccordion} onChange={() => {setCollapsedAccordion(!collapsedAccordion)}}/>
+            Article 2
+            <Rating value={ratingValue} onclick={setRatingValue}/>
+        </div>
+    );
+}
+
+type AppTitlePropsType = {
+    title: string
+}
+
+function AppTitle(props: AppTitlePropsType) {
+    console.log("AppTitle rendering")
+    return <h1>{ props.title }</h1>
 }
 
 export default App;
